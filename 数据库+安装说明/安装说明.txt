@@ -1,0 +1,70 @@
+﻿服务器系统：Linux + Centos7.x + 宝塔
+
+亲测环境：Nginx 1.18.0 + PHP5.6 + Mysql5.5
+
+运行目录：/public【提醒：很多同学忘记设置过来问我为什么显示404】
+
+数据库配置文件：/config/database.php
+
+短信宝接口网站：www.smsbao.com/reg?r=11520
+短信宝接口文件：/config/app.php（32~33行）
+
+Nginx伪静态
+location / {
+	if (!-e $request_filename){
+		rewrite  ^(.*)$  /index.php?s=$1  last;   break;
+	}
+}
+
+后台地址：/admin/login.html
+后台账户：admin
+后台密码：a5yuanma.cn
+
+前台账号：18888888888
+前台密码：18888888888
+
+宝塔【添加计划任务】
+任务类型：【访问URL】
+任务名称：【自定义随便填写】
+执行周期：【每天执行一次】
+URL地址：【http://域名/index/user/lixibao_ds】
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+━┅━┅━┅━┅━┅━┅━┅━┅━━┅━┅━┅━┅━┅━┅━┅━
+A5源码 永久域名：www.a5yuanma.cn  QQ:137666498
+━┅━┅━┅━┅━┅━┅━┅━┅━━┅━┅━┅━┅━┅━┅━┅━ 

@@ -1,0 +1,261 @@
+<form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
+    <div class="layui-card-body">
+        <div class="layui-form-item">
+
+            <label class="layui-form-label label-required">订单号</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.oid}" class="layui-input" readonly/>
+                <input type="hidden" name="_csrf_" value="{:systoken('admin/deal/edit_order')}" >
+                <input type="hidden" name="id" value="{$list.oid}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">用户名</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.username}" class="layui-input" readonly/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">佣金</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.commission}" class="layui-input" readonly/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务级别</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.cate_info}" class="layui-input" readonly/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务类型</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.rw_yq}" class="layui-input" readonly/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务要求</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.name}-{$list.shop_name}" class="layui-input" readonly/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">接单时间</label>
+            <div class="layui-input-block">
+                <input placeholder="{$list.addtime|format_datetime}" class="layui-input" readonly/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">视频链接</label>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-xs" data-title="打开视频" href='{$list.sp_lj}' target="view_window">&nbsp;&nbsp;打开视频&nbsp;&nbsp;</a>
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="height: 150px">
+            <table class="layui-table">
+                <thead style="height: 150px">
+                <tr>
+                    <th class="text-center">审核图片{$list.img}</th>
+                </tr>
+                <tr style="height: 150px">
+                    <td width="90px" class="text-center" style="height: 150px">
+                        <img src="{$list.img}" style="height: 150px">
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            </div>
+            <!--<script>$('[name="qr_code"]').uploadOneImage(), $('[name="image"]').uploadMultipleImage()</script>-->
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">交易状态{$list['status']}</label>
+            <div class="layui-inline">
+                <select name="status" id="selectList">
+                    <!--订单状态 0待付款 1交易完成 2用户取消(取消该值)  3强制完成 (等待审核)   4放弃任务强制取消  5交易冻结  -->
+                    <option value="" test>请选择审核状态</option>
+                    <option value="4" test <?php echo $list['status'] == 4 ? 'selected':' '  ?>>取消任务</option>
+                    <option value="5" test <?php echo $list['status'] == 5 ? 'selected':' '  ?>>审核失败</option>
+
+                    <!--<option value="0" test <?php echo $list['status'] == 0 ? 'selected':' '  ?> >未完成</option>-->
+                    <option value="3" test <?php echo $list['status'] == 3 ? 'selected':' '  ?> >等得审核</option>
+                    <option value="1" test <?php echo $list['status'] == 1 ? 'selected':' '  ?>>已经完成</option>
+                </select>
+            </div>
+        </div>
+
+
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">管理员备注</label>-->
+            <!--<textarea name="content">{$list.bz}</textarea>-->
+        <!--</div>-->
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>提交</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-close>取消</button>
+    </div>
+
+    <script>window.form.render();</script>
+    <script>
+        laydate.render({
+            elem: '#time'
+            ,type: 'time'
+            ,range:'-'
+            ,done: function(value, date, endDate){
+                console.log(value); //得到日期生成的值，如：2017-08-18
+            }
+        });
+    </script>
+</form>
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.isAddMode = parseInt('{$isAddMode|default=0}');
+            $rootScope.maps = JSON.parse(angular.element('#goods-value').val() || '[]') || {};
+            $rootScope.specs = JSON.parse(angular.element('#goods-specs').val() || '[{"name":"默认分组","list":[{"name":"默认规格","check":true}]}]');
+            // 批量设置数值
+            $rootScope.batchSet = function (type, fixed) {
+                layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
+                    $rootScope.$apply(function () {
+                        var val = (parseFloat(value) || 0).toFixed(fixed);
+                        for (var i in $rootScope.specsTreeData) for (var j in $rootScope.specsTreeData[i]) {
+                            $rootScope.specsTreeData[i][j][type] = val;
+                        }
+                    });
+                    layer.close(index);
+                });
+            };
+            // 返回商品列表
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+            // 设置默认值
+            $rootScope.setValue = function (key, type, value, call) {
+                $rootScope.maps[key] || ($rootScope.maps[key] = {});
+                return $rootScope.maps[key][type] = eval(call.replace('_', "'" + value + "'"));
+            };
+            // 读取默认值
+            $rootScope.getValue = function (key, callback) {
+                if (typeof callback === 'function') {
+                    return callback($rootScope.maps[key] || {});
+                }
+                return {};
+            };
+            // 去除空白字符
+            $rootScope.trimSpace = function (value) {
+                return (value + '').replace(/\s*/ig, '');
+            };
+            // 生成交叉表格数据
+            $rootScope.specsTreeData = [];
+            $rootScope.specsTreeNava = [];
+            // 当前商品规格发生变化时重新计算规格列表
+            $rootScope.$watch('specs', function () {
+                var data = $rootScope.specs, list = [], navs = [], table = [[]];
+                // 过滤无效记录
+                for (var i in data) {
+                    var tmp = [];
+                    for (var j in data[i].list) if (data[i].list[j].check && data[i].list[j].name.length > 0) {
+                        data[i].list[j].span = 1, data[i].list[j].show = true, data[i].list[j].group = data[i].name;
+                        tmp.push(data[i].list[j]);
+                    }
+                    list.push(tmp), navs.push(data[i].name);
+                }
+                $rootScope.specsTreeNava = navs;
+                // 表格交叉
+                for (var i in list) {
+                    var tmp = [];
+                    for (var j in table) for (var k in list[i]) tmp.push(table[j].concat(list[i][k]));
+                    table = tmp;
+                }
+                // 表格合并
+                list = angular.fromJson(angular.toJson(table));
+                for (var i in list) {
+                    var key = [], _key = '';
+                    for (var td in list[i]) key.push(list[i][td].group + '::' + list[i][td].name);
+                    for (var td in list[i]) if (_key.length === 0) {
+                        list[i][0].key = _key = key.join(';;');
+                        list[i][0].sku = $rootScope.getValue(_key, function (data) {
+                            return data.sku || '0';
+                        });
+                        list[i][0].virtual = $rootScope.getValue(_key, function (data) {
+                            return data.virtual || '0';
+                        });
+                        list[i][0].express = $rootScope.getValue(_key, function (data) {
+                            return data.express || '1';
+                        });
+                        list[i][0].market = $rootScope.getValue(_key, function (data) {
+                            return data.market || '0.00';
+                        });
+                        list[i][0].selling = $rootScope.getValue(_key, function (data) {
+                            return data.selling || '0.00';
+                        });
+                        list[i][0].status = $rootScope.getValue(_key, function (data) {
+                            return !!(typeof data.status !== 'undefined' ? data.status : true);
+                        });
+                    }
+                }
+                $rootScope.specsTreeData = list;
+            }, true);
+            // 判断规则是否能取消选择
+            $rootScope.checkListChecked = function (list, check) {
+                for (var i in list) if (list[i].check) return check;
+                return true;
+            };
+            // 增加整行规格分组
+            $rootScope.addSpecRow = function (data) {
+                data.push({name: '规格分组', list: [{name: '规格属性', check: true}]})
+            };
+            // 下移整行规格分组
+            $rootScope.dnSpecRow = function (data, $index) {
+                var tmp = [], cur = data[$index];
+                if ($index > data.length - 2) return false;
+                for (var i in data) {
+                    (parseInt(i) !== parseInt($index)) && tmp.push(data[i]);
+                    (parseInt(i) === parseInt($index) + 1) && tmp.push(cur);
+                }
+                return $rootScope.specs = tmp;
+            };
+            // 上移整行规格分组
+            $rootScope.upSpecRow = function (data, $index) {
+                var tmp = [], cur = data[$index];
+                if ($index < 1) return false;
+                for (var i in data) {
+                    (parseInt(i) === parseInt($index) - 1) && tmp.push(cur);
+                    (parseInt(i) !== parseInt($index)) && tmp.push(data[i]);
+                }
+                return $rootScope.specs = tmp;
+            };
+            // 移除整行规格分组
+            $rootScope.delSpecRow = function (data, $index) {
+                var tmp = [];
+                for (var i in data) if (parseInt(i) !== parseInt($index)) tmp.push(data[i]);
+                return $rootScope.specs = tmp;
+            };
+            // 增加分组的属性
+            $rootScope.addSpecVal = function (list) {
+                list.push({name: '规格属性', check: true});
+            };
+            // 移除分组的属性
+            $rootScope.delSpecVal = function (data, $index) {
+                var temp = [];
+                for (var i in data) if (parseInt(i) !== parseInt($index)) temp.push(data[i]);
+                return temp;
+            };
+        }
+    })
+</script>

@@ -1,0 +1,108 @@
+html{
+    width:100%;
+    height:100%;
+}
+body{
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width:100%;
+    height:100%;
+    min-width: 1254px;
+    min-height: 720px;
+    left:0;
+    bottom: 0;
+}
+
+
+
+.i1{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+}
+.i2{
+    width: 100%;
+    height: 100%;
+    background: url(./BG.png);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: 50%;
+}
+.i3{
+    background: #968080;
+    position: relative;
+    height: 100px;
+    bottom: 0;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.i2 .self{
+    width:1000px;
+    height: 650px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.i3 .item{
+    width:1000px;
+    text-align: center;
+    margin: 0 auto;
+}
+.i3 .item span{
+    margin: 0 10px;
+    font-size: 12px;
+    color: #ffffff;
+}
+.l1{
+    width:338px;
+    height: 652px;
+    padding-top: 30px;
+}
+.r1{
+    padding-top: 100px;
+}
+.r1 .title{
+    width:496px;
+    height:112px;
+}
+.r1 .title img{
+    width:100%;
+    height: 100%;
+}
+.right{
+    display: flex;
+    margin-top: 54px;
+}
+.right .left-btn .btn{
+    width: 260px;
+    height: 80px;
+    margin-bottom: 34px;
+}
+.right .right-btn{
+    position: relative;
+    left:46px;
+    width:168px;
+    height: 200px;
+
+}
+.right .right-btn  .btn{
+    width:168px;
+    height: 200px;
+}
+.right .right-btn  .btn img{
+    width:100%;
+    height: 100%;
+}
+.btn{
+    cursor: pointer;
+}
+.zhezhao{
+    display: none;
+}

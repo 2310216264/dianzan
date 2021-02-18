@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://www.anqinyun.com/code.htm -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>星鸿ⅢAPP下载 </title>
+    <link rel="icon" type="image/ico" href="http://m.mogenzc.com/favicon.ico">
+
+    <style type="text/css">
+        .imgs { background: url('http://images-7n.365tggj.com/gw_live_weixin.png') no-repeat; background-size: 100% 110%; z-index: 999999; min-height: 100%; /* background-size:contain;*/ width: 110%; margin-left: -90px; }
+
+        .wxtip { background: rgba(0,0,0,0.8); text-align: center; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 998; display: none }
+    </style>
+</head>
+<body>
+    <div class="wxtip" id="JweixinTip">
+        <div class="imgs"></div>
+    </div>
+
+
+<script type="text/javascript">
+    //微信 弹框
+    var ua = navigator.userAgent.toLowerCase();
+    var iosUrl = 'http://www.275917.com/app.apk?_' + (new Date()).getTime();;
+    var androidUrl = 'http://www.275917.com/app.apk?_' + (new Date()).getTime();
+    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        document.getElementById('JweixinTip').style.display = 'block';
+    }
+    var isIos = false;
+
+    var u = navigator.userAgent, app = navigator.appVersion;
+    if (/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
+        if (window.location.href.indexOf("?mobile") < 0) {
+            try {
+                if (/iPhone|mac|iPod|iPad/i.test(navigator.userAgent)) {
+                    theUrl = iosUrl;
+                    isIos = true;
+                } else {
+                    theUrl = androidUrl;
+                }
+            } catch (e) { }
+        }
+    } else if (u.indexOf('iPad') > -1) {
+        theUrl = iosUrl;
+        isIos = true;
+    } else {
+        theUrl = androidUrl;
+    }
+	
+	if(isIos){
+		//return false;
+	}else{
+		location.href = theUrl;
+	}
+	
+    
+
+
+</script></body></html>

@@ -1,0 +1,96 @@
+{extend name='main'}
+
+{block name="content"}
+
+<div class="think-box-shadow">
+    {include file='deal/order_list_search'}
+    <table class="layui-table margin-top-15" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='text-left nowrap'>订单号</th>
+            <th class='text-left nowrap'>用户名</th>
+            <th class='text-left nowrap'>佣金</th>
+            <th class='text-left nowrap'>任务级别</th>
+            <th class='text-left nowrap'>任务类型</th>
+            <th class='text-left nowrap'>任务要求</th>
+
+            <th class='text-left nowrap'>订单状态</th>
+
+            <th class='text-left nowrap'>接单时间</th>
+            <th class='text-left nowrap'>上次处理时间</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-left nowrap'>{$vo.id}</td>
+            <td class='text-left nowrap'>{$vo.username}</td>
+            <td class='text-left nowrap'>¥{$vo.commission}</td>
+            <td class='text-left nowrap'>{$vo.cate_info}</td>
+            <td class='text-left nowrap'>
+                {eq name="vo.shop_name" value="1"}供应信息{/eq}
+                {eq name="vo.shop_name" value="2"}需求信息{/eq}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.name}
+                {eq name="vo.rw_yq" value="1"}点赞{/eq}
+                {eq name="vo.rw_yq" value="2"}关注{/eq}
+                {eq name="vo.rw_yq" value="3"}点赞+关注{/eq}
+
+            </td>
+
+
+            <td class='text-left nowrap'>
+                <!--订单状态 0待付款 1交易完成 2用户取消  3强制完成 (等待审核)   4强制取消  5交易冻结  -->
+
+                {switch $vo.status}
+                    {case 0}
+                        {literal}
+                            <!--等待付款-->
+                        <span style="color:#cc;">未完成</span>
+                        {/literal}
+                    {/case}
+                    {case 1}
+                        <!--完成付款-->
+                        <span style="color:green;">已经完成</span>
+                    {/case}
+                    {case 3} <span style="color:red;">等待审核</span>{/case}
+                    {case 4} <span style="color:#00bbd3;">已取消</span>{/case}
+                    {case 5}
+                        <!--订单冻结   审核失败-->
+                        <span style="color:red;">审核失败</span>
+                    {/case}
+
+                {/switch}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.addtime|format_datetime}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.endtime|format_datetime}
+            </td>
+            <td class='text-left nowrap'>
+                <!--layui-btn-xs-->
+                <a data-dbclick class="layui-btn" data-title="查看" data-modal='{:url("admin/deal/edit_order")}?id={$vo.id}'>&nbsp;&nbsp;查&nbsp;看&nbsp;&nbsp;</a>
+                <!--<a class="layui-btn layui-btn-xs layui-btn" data-open="{:url('edit_order',['id'=>$vo.id])}"  style='background:green;'>编辑</a>-->
+                <!--<a data-csrf="{:systoken('admin/deal/do_user_order')}" class="layui-btn layui-btn-xs layui-btn" data-action="{:url('edit_order')}" data-value="id#{$vo.id};status#3" >查看订单</a>-->
+                <!--{if $vo.status==0}-->
+                <!--<a data-csrf="{:systoken('admin/deal/do_user_order')}" class="layui-btn layui-btn-xs layui-btn-warm" data-action="{:url('do_user_order')}" data-value="id#{$vo.id};status#4" >取消订单</a>-->
+                <!--{/if}-->
+
+                <!--{if $vo.status==5}-->
+                <!--<a data-csrf="{:systoken('admin/deal/jiedong')}" class="layui-btn layui-btn-xs layui-btn" data-action="{:url('jiedong')}" data-value="id#{$vo.id};status#3" >手动解冻</a>-->
+                <!--{/if}-->
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+
+</div>
+{/block}

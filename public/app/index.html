@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)http://www.anqinyun.com/ -->
+<html lang="en" style="font-size: 110.4px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>DemoYMAPP下载 </title>
+    <!--当屏幕小于或等于600px时，将采用small.css样式来渲染Web页面。-->
+    <link rel="stylesheet" media="screen and (max-width:768px)" href="./static/phone.css" type="text/css">
+
+    <!--当屏幕大于或等于900px时，将采用big.css样式来渲染Web页面。-->
+    <link rel="stylesheet" media="screen and (min-width:768px)" href="./static/index.css" type="text/css">
+    <script src="./static/jquery.min.js"></script>
+    <link rel="icon" type="image/ico" href="http://m.mogenzc.com/favicon.ico">
+</head>
+<body style="">
+    <div class="i1">
+        <div class="i2">
+            <div class="self">
+                <!--left-->
+                <div class="l1">
+                    <img src="./static/phone.png">
+                </div>
+                <!--right-->
+                <div class="r1">
+                    <!--title-->
+                    <div class="title" style="text-align:center">
+                        <h3 style="font-size:30px;color:#fff;margin:0;padding:0">DemoYM</h3>
+                        <p style="font-size:18px;color:#fff">---为广大用户提供优质专业的接单体验</p>
+                    </div>
+                    <!--btn-->
+                    <div class="right">
+                        <!--left-->
+                        <div class="left-btn">
+                            <!--apple-->
+                            <div class="btn img1" onclick="down(1)">
+                                    <img src="./static/iphone.png">
+                                <!--</a>-->
+
+                            </div>
+                            <!--android-->
+                            <div class="btn img2" onclick="down(2)">
+                                    <img src="./static/android.png">
+                            </div>
+                        </div>
+                        <!--right-->
+                        <div class="right-btn">
+                            <div class="btn code">
+                                <img src="./static/code.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="i3">
+            <div class="item">
+                <span>DemoYM</span>
+                <span>版权所有</span>
+            </div>
+        </div>
+    </div>
+    <div class="wxtip" id="JweixinTip">
+        <div class="imgs"></div>
+    </div>
+    <script>
+
+        function down(type) {
+            console.log(type);
+            //微信 弹框
+            var u = navigator.userAgent, app = navigator.appVersion;
+            var ua = navigator.userAgent.toLowerCase();
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var iosUrl = 'https://www.demoym.com';;
+            var androidUrl = 'https://www.demoym.com';
+            if(type==1 && isAndroid){
+                return;
+            }
+            if(type==2 && isiOS){
+                return;
+            }
+            if (isiOS) {
+            	//alert("IOS即将上线!")
+            };	
+
+            if(ua.match(/MicroMessenger/i)=="micromessenger" && type!=1) {
+
+                $(".wxtip").addClass("wxtip_show")
+                document.getElementById('JweixinTip').style.display='block';
+            }
+            else{
+
+                if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){
+                    if(window.location.href.indexOf("?mobile")<0){
+                        try{
+                            if(/iPhone|mac|iPod|iPad/i.test(navigator.userAgent)){
+                                theUrl = iosUrl;
+                            }else{
+                                theUrl = androidUrl;
+                            }
+                        }catch(e){
+                            theUrl = androidUrl;
+                        }
+                    }
+                }else if( u.indexOf('iPad') > -1){
+                    theUrl = iosUrl;
+                }else{
+                    if(type==1){
+                        theUrl = iosUrl;
+                    }else{
+                        theUrl = androidUrl;
+                    }
+
+                }
+                window.location.href = theUrl;
+            }
+        }
+        (function (doc, win) {
+            if(doc.documentElement.clientWidth<=768){
+                var docEl = doc.documentElement,
+                        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                        recalc = function () {
+                            var clientWidth = docEl.clientWidth;
+                            if (!clientWidth) return;
+                            docEl.style.fontSize = 200 * (clientWidth / 750) + 'px';
+                        };
+                if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                doc.addEventListener('DOMContentLoaded', recalc, false);
+                $(".code").find("img").attr('src','static/code.png')
+                $(".img1").on({
+                    mouseover : function(){
+                        $(this).find("img").attr('src','static/out-iphone.png');
+                        $(".img2").find("img").attr('src','static/android.png');
+                    }
+                }) ;
+                $(".img2").on({
+                    mouseover : function(){
+                        $(this).find("img").attr('src','static/out-android.png');
+                        $(".img1").find("img").attr('src','static/iphone.png');
+                    }
+                }) ;
+                $(".img1").find("img").attr('src','static/iphone.png');
+                $(".img2").find("img").attr('src','static/android.png');
+
+            }else{
+                $(".img1").on({
+                    mouseover : function(){
+                        $(this).find("img").attr('src','img/out-iphone.png');
+                        $(".img2").find("img").attr('src','static/android.png');
+                    }
+                }) ;
+                $(".img2").on({
+                    mouseover : function(){
+                        $(this).find("img").attr('src','static/out-android.png');
+                        $(".img1").find("img").attr('src','static/iphone.png');
+                    }
+                }) ;
+            }
+
+        })(document, window);
+    </script>
+
+</body></html>
